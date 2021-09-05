@@ -1,17 +1,20 @@
 <template>
     <header>
-        <ul>
-            <li>
-                <h1>
+        <nav>
+            <h1>
+                <router-link to="/">
+                    مدرس مورد نظر خود را پیدا کنید
+                </router-link>
+            </h1>
+            <ul>
+                <li>
                     <router-link to="/coaches">مدرسان</router-link>
-                </h1>
-            </li>
-            <li>
-                <h1>
+                </li>
+                <li>
                     <router-link to="/requests">درخواست ها</router-link>
-                </h1>
-            </li>
-        </ul>
+                </li>
+            </ul>
+        </nav>
     </header>
 </template>
 
