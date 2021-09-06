@@ -20,6 +20,7 @@ const router = createRouter({
         {path:'/coaches',component:CoachList},
         {
             path:'/coaches/:id',
+            props:true,
             component:CoachDetail,
             children:[
                 {path:'contact',component:ContactCoach}
@@ -63,7 +64,7 @@ const store = createStore({
         hasCoaches(state){
             return state.coaches && state.coaches.length>0;
         }
-    }
+    },
 })
 
 const app = createApp(App)

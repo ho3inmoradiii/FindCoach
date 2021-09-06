@@ -23,7 +23,7 @@
                 return '/coaches/' + this.id + '/contact';
             },
             coachDetailLink(){
-                return'/coaches/' + this.id;
+                return '/coaches/' + this.id;
             }
         }
     }
