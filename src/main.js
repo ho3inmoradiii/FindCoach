@@ -35,6 +35,7 @@ const router = createRouter({
 const store = createStore({
     state(){
         return{
+            userId:'c3',
             coaches:[
                 {
                     id: 'c1',
@@ -63,8 +64,34 @@ const store = createStore({
         },
         hasCoaches(state){
             return state.coaches && state.coaches.length>0;
+        },
+        userId(state){
+            return state.userId;
+        },
+        isCoach(_,getters,_2,rootGetters){
+            const coaches = getters.finalCoachesList;
+            const userId = rootGetters.userId;
+            return coaches.some(coach => coach.id === userId);
         }
     },
+    mutations:{
+        registerCoach(state,payload){
+            state.coaches.push(payload);
+        }
+    },
+    actions:{
+        registerCoach(context,payload){
+            const coachData = {
+                id:context.rootGetters.userId,
+                firstName: payload.first,
+                lastName: payload.last,
+                areas:payload.areas,
+                hourlyRate:payload.rate,
+                description:payload.desc,
+            };
+            context.commit('registerCoach',coachData);
+        }
+    }
 })
 
 const app = createApp(App)

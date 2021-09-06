@@ -6,7 +6,7 @@
         <base-card>
             <div class="controls">
                 <the-button mode="outline">تازه سازی</the-button>
-                <the-button link to="/register">ثبت نام به عنوان مدرس</the-button>
+                <the-button link to="/register" v-if="!isCoach">ثبت نام به عنوان مدرس</the-button>
             </div>
             <ul v-if="hasCoaches">
                 <coach-item
@@ -56,6 +56,9 @@
             },
             hasCoaches(){
                 return this.$store.getters.hasCoaches;
+            },
+            isCoach(){
+                return this.$store.getters.isCoach;
             }
         },
         methods:{
