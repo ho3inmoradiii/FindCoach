@@ -3,7 +3,7 @@
         <h3>{{ fullName }}</h3>
         <h4>${{ hourlyRate }}/hour</h4>
         <div>
-            <span v-for="area in areas" :key="area">{{ area }}</span>
+            <base-badge v-for="area in areas" :key="area" :type="area" :title="area">{{ area }}</base-badge>
         </div>
         <div class="actions">
             <the-button link mode="outline" :to="coachContactLink">ارتباط با مدرس</the-button>
