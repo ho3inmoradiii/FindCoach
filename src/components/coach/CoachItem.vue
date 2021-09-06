@@ -6,15 +6,15 @@
             <span v-for="area in areas" :key="area">{{ area }}</span>
         </div>
         <div class="actions">
-            <router-link to="/coaches/c1/contact">ارتباط با مدرس</router-link>
-            <router-link to="/coaches/c1">اطلاعات مدرس</router-link>
+            <the-button link mode="outline" :to="coachContactLink">ارتباط با مدرس</the-button>
+            <the-button link :to="coachDetailLink">اطلاعات مدرس</the-button>
         </div>
     </li>
 </template>
 
 <script>
     export default {
-        props:['firstName','lastName','hourlyRate','areas'],
+        props:['id','firstName','lastName','hourlyRate','areas'],
         computed:{
             fullName(){
                 return this.firstName + ' ' + this.lastName;

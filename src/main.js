@@ -3,6 +3,9 @@ import {createRouter,createWebHistory} from "vue-router";
 import {createStore} from 'vuex';
 
 import App from './App';
+import BaseCard from './components/UI/BaseCard';
+import TheButton from './components/UI/TheButton';
+import BaseBadge from './components/UI/BaseBadge';
 import CoachList from './components/coach/CoachesList';
 import RequestList from './components/request/RequestsList';
 import CoachDetail from './components/coach/CoachDetail';
@@ -67,5 +70,9 @@ const app = createApp(App)
 
 app.use(router);
 app.use(store);
+
+app.component('base-card',BaseCard);
+app.component('base-badge',BaseBadge);
+app.component('the-button',TheButton);
 
 app.mount('#app');
