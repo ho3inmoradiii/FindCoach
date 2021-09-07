@@ -1,8 +1,10 @@
 <template>
     <li>
-        <h3>{{ fullName }}</h3>
-        <h4>${{ hourlyRate }}/hour</h4>
-        <div>
+        <div class="name-rate">
+            <h3>{{ fullName }}</h3>
+            <h4>{{ hourlyRate }}تومان\ساعت</h4>
+        </div>
+        <div class="badges">
             <base-badge v-for="area in areas" :key="area" :type="area" :title="area">{{ area }}</base-badge>
         </div>
         <div class="actions">
@@ -39,6 +41,7 @@
 
     h3 {
         font-size: 1.5rem;
+        text-align: right;
     }
 
     h3,
@@ -53,5 +56,15 @@
     .actions {
         display: flex;
         justify-content: flex-end;
+    }
+    .badges{
+        text-align: right;
+    }
+
+    .name-rate{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        direction: rtl;
     }
 </style>

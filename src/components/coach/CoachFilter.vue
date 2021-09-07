@@ -1,17 +1,19 @@
 <template>
     <base-card>
         <h2>مربی مورد نظر خود را پیدا کنید</h2>
-        <div class="filter-option">
-            <input type="checkbox" id="frontend" checked @change="setFilter">
-            <label for="frontend">Frontend</label>
-        </div>
-        <div class="filter-option">
-            <input type="checkbox" id="backend" checked @change="setFilter">
-            <label for="backend">Backend</label>
-        </div>
-        <div class="filter-option">
-            <input type="checkbox" id="fullstack" checked @change="setFilter">
-            <label for="fullstack">Fullstack</label>
+        <div class="filter-option-box">
+            <div class="filter-option">
+                <input type="checkbox" id="frontend" checked @change="setFilter">
+                <label for="frontend">Frontend</label>
+            </div>
+            <div class="filter-option">
+                <input type="checkbox" id="backend" checked @change="setFilter">
+                <label for="backend">Backend</label>
+            </div>
+            <div class="filter-option">
+                <input type="checkbox" id="fullstack" checked @change="setFilter">
+                <label for="fullstack">Fullstack</label>
+            </div>
         </div>
     </base-card>
 </template>
@@ -46,10 +48,13 @@
 <style scoped>
     h2 {
         margin: 0.5rem 0;
+        text-align: right;
     }
 
     .filter-option {
-        margin-right: 1rem;
+        margin-left: 1rem;
+        text-align: right;
+        direction: rtl;
     }
 
     .filter-option label,
@@ -63,5 +68,11 @@
 
     .filter-option.active label {
         font-weight: bold;
+    }
+
+    .filter-option-box{
+        display: flex;
+        text-align: right;
+        direction: rtl;
     }
 </style>

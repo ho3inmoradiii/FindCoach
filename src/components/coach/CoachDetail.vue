@@ -1,15 +1,16 @@
 <template>
    <section>
        <base-card>
-           <h2>{{ fullName }}</h2>
-           <h3>$ {{ rate }}/hour</h3>
+           <div class="name-rate">
+               <h2>{{ fullName }}</h2>
+               <h3>{{ rate }}تومان\ساعت</h3>
+           </div>
        </base-card>
-
    </section>
     <section>
         <base-card>
             <header>
-                <h2>برای ارتباط با این مدرس کلیک کنید</h2>
+                <h2 class="textRight">برای ارتباط با این مدرس کلیک کنید</h2>
                 <the-button link :to="contactLink">ارتباط</the-button>
             </header>
             <router-view></router-view>
@@ -17,14 +18,18 @@
     </section>
     <section>
         <base-card>
-            <base-badge v-for="area in areas" :key="area" :type="area" :title="area">{{ area }}</base-badge>
-            <p>{{ description }}</p>
+            <div class="textRight">
+                <base-badge v-for="area in areas" :key="area" :type="area" :title="area">{{ area }}</base-badge>
+            </div>
+            <p class="textRight dirRTL">{{ description }}</p>
         </base-card>
     </section>
 </template>
 
 <script>
+    import TheButton from "../UI/TheButton";
     export default {
+        components: {TheButton},
         props:['id'],
         data(){
           return{
@@ -53,3 +58,33 @@
         }
     }
 </script>
+
+<style scoped>
+    header{
+        display: flex;
+        justify-content: space-between;
+        direction: rtl;
+        line-height: 0;
+    }
+
+    header a{
+        width: 100px;
+        height: 40px;
+        text-align: center;
+        line-height: 17px;
+    }
+
+    .textRight{
+        text-align: right;
+    }
+
+    .name-rate{
+        display: flex;
+        justify-content: space-between;
+        direction: rtl;
+    }
+
+    .dirRTL{
+        direction: rtl;
+    }
+</style>

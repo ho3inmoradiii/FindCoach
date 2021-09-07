@@ -55,7 +55,8 @@ const store = createStore({
                         'I am Julie and as a senior developer in a big tech company, I can help you get your first job or progress in your current role.',
                     hourlyRate: 30
                 }
-            ]
+            ],
+            requests:[]
         }
     },
     getters:{
@@ -72,11 +73,17 @@ const store = createStore({
             const coaches = getters.finalCoachesList;
             const userId = rootGetters.userId;
             return coaches.some(coach => coach.id === userId);
+        },
+        getRequests(state){
+            return state.requests;
         }
     },
     mutations:{
         registerCoach(state,payload){
             state.coaches.push(payload);
+        },
+        sendMessage(state,payload){
+            state.requests.push(payload);
         }
     },
     actions:{
@@ -90,6 +97,15 @@ const store = createStore({
                 description:payload.desc,
             };
             context.commit('registerCoach',coachData);
+        },
+        sendMessage(context,payload){
+            const newReq = {
+                id:new Date().toISOString(),
+                coachId:payload.coachId,
+                email:payload.email,
+                message:payload.message,
+            }
+            context.commit('sendMessage',newReq);
         }
     }
 })
