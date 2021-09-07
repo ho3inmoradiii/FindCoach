@@ -74,8 +74,13 @@ const store = createStore({
             const userId = rootGetters.userId;
             return coaches.some(coach => coach.id === userId);
         },
-        getRequests(state){
-            return state.requests;
+        getRequests(state,_,_2,rootGetters){
+            const coachId = rootGetters.userId;
+            console.log(coachId);
+            return state.requests.filter(request => request.coachId === coachId);
+        },
+        hasRequests(_,getters){
+            return getters.getRequests && getters.getRequests.length > 0;
         }
     },
     mutations:{
