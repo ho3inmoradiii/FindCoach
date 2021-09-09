@@ -89,19 +89,37 @@ const store = createStore({
         },
         sendMessage(state,payload){
             state.requests.push(payload);
+        },
+        setCoaches(state,payload){
+            state.coaches = payload;
         }
     },
     actions:{
-        registerCoach(context,payload){
+        async registerCoach(context,payload){
+            const userId = context.rootGetters.userId;
             const coachData = {
-                id:context.rootGetters.userId,
                 firstName: payload.first,
                 lastName: payload.last,
                 areas:payload.areas,
                 hourlyRate:payload.rate,
                 description:payload.desc,
             };
-            context.commit('registerCoach',coachData);
+
+            const response = await fetch(`https://findcoach-7771d-default-rtdb.firebaseio.com/coaches/${userId}.json`,{
+                method:'PUT',
+                body:JSON.stringify(coachData),
+            });
+
+            //const responseData = await response.json();
+
+            if (!response.ok){
+                // error...
+            }
+
+            context.commit('registerCoach',{
+                ...coachData,
+                id:userId
+            });
         },
         sendMessage(context,payload){
             const newReq = {
@@ -111,6 +129,27 @@ const store = createStore({
                 message:payload.message,
             }
             context.commit('sendMessage',newReq);
+        },
+        async loadCoaches(context){
+            const response = await fetch(`https://findcoach-7771d-default-rtdb.firebaseio.com/coaches.json`);
+            const responseData = await response.json();
+            if (!response.ok){
+                // ...
+            }
+
+            const coaches = [];
+            for (const key of responseData){
+                const coach = {
+                    id:key,
+                    firstName: responseData[key].firstName,
+                    lastName: responseData[key].lastName,
+                    areas:responseData[key].areas,
+                    hourlyRate:responseData[key].hourlyRate,
+                    description:responseData[key].description,
+                }
+                coaches.push(coach);
+            }
+            context.commit('setCoaches',coaches);
         }
     }
 })

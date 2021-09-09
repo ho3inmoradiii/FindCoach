@@ -5,7 +5,7 @@
     <section>
         <base-card>
             <div class="controls">
-                <the-button mode="outline">تازه سازی</the-button>
+                <the-button mode="outline" @click="loadCoaches">تازه سازی</the-button>
                 <the-button link to="/register" v-if="!isCoach">ثبت نام به عنوان مدرس</the-button>
             </div>
             <ul v-if="hasCoaches">
@@ -59,11 +59,17 @@
             },
             isCoach(){
                 return this.$store.getters.isCoach;
-            }
+            },
+        },
+        created() {
+            this.loadCoaches();
         },
         methods:{
             setFilters(updatedFilters){
                 this.activeFilters = updatedFilters;
+            },
+            loadCoaches() {
+                this.$store.dispatch('loadCoaches')
             }
         }
     }
