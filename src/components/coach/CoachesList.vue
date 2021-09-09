@@ -6,9 +6,12 @@
         <base-card>
             <div class="controls">
                 <the-button mode="outline" @click="loadCoaches">تازه سازی</the-button>
-                <the-button link to="/register" v-if="!isCoach">ثبت نام به عنوان مدرس</the-button>
+                <the-button link to="/register" v-if="!isCoach && !isLoading">ثبت نام به عنوان مدرس</the-button>
             </div>
-            <ul v-if="hasCoaches">
+            <div v-if="isLoading">
+                <base-spinner></base-spinner>
+            </div>
+            <ul v-else-if="hasCoaches">
                 <coach-item
                         v-for="coach in listOfCoaches"
                         :key="coach.id"
@@ -27,10 +30,12 @@
 <script>
     import CoachItem from './CoachItem';
     import CoachFilter from "./CoachFilter";
+    import BaseSpinner from '../UI/BaseSpinner';
     export default {
-        components:{CoachItem,CoachFilter},
+        components:{CoachItem,CoachFilter,BaseSpinner},
         data(){
             return{
+                isLoading:false,
                 activeFilters:{
                     frontend: true,
                     backend: true,
@@ -55,7 +60,7 @@
                 })
             },
             hasCoaches(){
-                return this.$store.getters.hasCoaches;
+                return !this.isLoading && this.$store.getters.hasCoaches;
             },
             isCoach(){
                 return this.$store.getters.isCoach;
@@ -68,8 +73,10 @@
             setFilters(updatedFilters){
                 this.activeFilters = updatedFilters;
             },
-            loadCoaches() {
-                this.$store.dispatch('loadCoaches')
+            async loadCoaches() {
+                this.isLoading = true;
+                await this.$store.dispatch('loadCoaches');
+                this.isLoading = false;
             }
         }
     }

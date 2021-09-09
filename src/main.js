@@ -35,7 +35,7 @@ const router = createRouter({
 const store = createStore({
     state(){
         return{
-            userId:'c3',
+            userId:'c5',
             coaches:[
                 {
                     id: 'c1',
@@ -134,11 +134,11 @@ const store = createStore({
             const response = await fetch(`https://findcoach-7771d-default-rtdb.firebaseio.com/coaches.json`);
             const responseData = await response.json();
             if (!response.ok){
-                // ...
+
             }
 
             const coaches = [];
-            for (const key of responseData){
+            for (const key in responseData){
                 const coach = {
                     id:key,
                     firstName: responseData[key].firstName,
