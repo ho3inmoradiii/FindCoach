@@ -77,7 +77,6 @@ const store = createStore({
         },
         getRequests(state,_,_2,rootGetters){
             const coachId = rootGetters.userId;
-            console.log(coachId);
             return state.requests.filter(request => request.coachId === coachId);
         },
         hasRequests(_,getters){
@@ -93,6 +92,9 @@ const store = createStore({
         },
         setCoaches(state,payload){
             state.coaches = payload;
+        },
+        setRequests(state,payload){
+            state.requests = payload;
         }
     },
     actions:{
@@ -119,13 +121,22 @@ const store = createStore({
                 id:userId
             });
         },
-        sendMessage(context,payload){
+        async sendMessage(context,payload){
             const newReq = {
-                id:new Date().toISOString(),
-                coachId:payload.coachId,
                 email:payload.email,
                 message:payload.message,
             }
+            const response = await fetch(`https://findcoach-7771d-default-rtdb.firebaseio.com/requests/${payload.coachId}.json`,{
+                method:'POST',
+                body:JSON.stringify(newReq),
+            });
+            const responseData = await response.json();
+            if (!response.ok){
+                const error = new Error(responseData.message || 'مشکلی در ارسال پیام به وجود آمده است');
+                throw error;
+            }
+            newReq.id = new Date().toISOString();
+            newReq.coachId = payload.coachId;
             context.commit('sendMessage',newReq);
         },
         async loadCoaches(context){
@@ -149,6 +160,27 @@ const store = createStore({
                 coaches.push(coach);
             }
             context.commit('setCoaches',coaches);
+        },
+        async fetchRequests(context){
+            const coachId = context.rootGetters.userId;
+            const response = await fetch(`https://findcoach-7771d-default-rtdb.firebaseio.com/requests/${coachId}.json`);
+            const responseData = await response.json();
+            console.log(responseData);
+            if (!response.ok){
+                const error = new Error(responseData.message || 'توی دریافت اطلاعات مشکل به وجود آمده است');
+                throw error;
+            }
+            const requests = [];
+            for (const key in responseData){
+                const request = {
+                    id:key,
+                    coachId:coachId,
+                    email: responseData[key].email,
+                    message:responseData[key].message,
+                }
+                requests.push(request);
+            }
+            context.commit('setRequests',requests);
         }
     }
 })
