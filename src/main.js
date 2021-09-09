@@ -12,6 +12,7 @@ import CoachDetail from './components/coach/CoachDetail';
 import CoachRegistration from './components/coach/CoachRegistration';
 import ContactCoach from './components/request/ContactCoach';
 import NotFound from './components/UI/NotFound';
+import BaseDialog from "./components/UI/BaseDialog";
 
 const router = createRouter({
     history:createWebHistory(),
@@ -109,9 +110,6 @@ const store = createStore({
                 method:'PUT',
                 body:JSON.stringify(coachData),
             });
-
-            //const responseData = await response.json();
-
             if (!response.ok){
                 // error...
             }
@@ -134,7 +132,8 @@ const store = createStore({
             const response = await fetch(`https://findcoach-7771d-default-rtdb.firebaseio.com/coaches.json`);
             const responseData = await response.json();
             if (!response.ok){
-
+                const error = new Error(responseData.message || 'مشکل در دریافت اطلاعات');
+                throw error;
             }
 
             const coaches = [];
@@ -162,5 +161,6 @@ app.use(store);
 app.component('base-card',BaseCard);
 app.component('base-badge',BaseBadge);
 app.component('the-button',TheButton);
+app.component('base-dialog',BaseDialog);
 
 app.mount('#app');

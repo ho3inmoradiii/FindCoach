@@ -1,4 +1,7 @@
 <template>
+    <base-dialog :show="!!error" title="یه مشکلی به وجود آمده است" @close="closeDialog">
+        <p>{{ error }}</p>
+    </base-dialog>
     <section>
         <coach-filter @change-filter="setFilters"></coach-filter>
     </section>
@@ -31,11 +34,13 @@
     import CoachItem from './CoachItem';
     import CoachFilter from "./CoachFilter";
     import BaseSpinner from '../UI/BaseSpinner';
+    import BaseDialog from "../UI/BaseDialog";
     export default {
-        components:{CoachItem,CoachFilter,BaseSpinner},
+        components:{BaseDialog, CoachItem,CoachFilter,BaseSpinner},
         data(){
             return{
                 isLoading:false,
+                error:null,
                 activeFilters:{
                     frontend: true,
                     backend: true,
@@ -75,8 +80,16 @@
             },
             async loadCoaches() {
                 this.isLoading = true;
-                await this.$store.dispatch('loadCoaches');
+                try {
+                    await this.$store.dispatch('loadCoaches');
+                }catch (e) {
+                    this.error = e.message || 'مشکلی توی دریافت داده رخ داده است اگه میتونی فیلتر شکنت رو روشن کن'
+                }
+
                 this.isLoading = false;
+            },
+            closeDialog(){
+                this.error = null;
             }
         }
     }
